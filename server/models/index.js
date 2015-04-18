@@ -10,7 +10,24 @@ module.exports = {
     },
 
     post: function (res, req) {
-      console.log('HI THERE');
+
+      var connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database: 'chat'
+      });
+
+      console.log("in post");
+
+      connection.connect(function(err) { if (err) console.log('err');});
+      //start here
+      var queryString = "INSERT INTO Main Select (userName) VALUES (" + "'" + message.username + "'" + ")";
+      var queryArgs = [];
+
+      connection.query(queryString, queryArgs, function(err, results) {
+
+      });
     }
   },
 
