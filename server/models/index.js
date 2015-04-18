@@ -1,18 +1,43 @@
-var db = require('../db');
-
-
+var mysql = require('mysql');
+var db = require('../db/index.js');
 
 
 module.exports = {
   messages: {
-    get: function () {}, // a function which produces all the messages
-    post: function () {} // a function which can be used to insert a message into the database
+
+    get: function() {
+
+    },
+
+    post: function (res, req) {
+      console.log('HI THERE');
+    }
   },
 
   users: {
-    // Ditto as above.
-    get: function () {},
-    post: function () {}
+    get: function (param) {
+
+
+    },
+    post: function (message) {
+
+      var connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database: 'chat'
+      });
+
+      console.log("in post");
+      connection.connect(function(err) { if (err) console.log('err');});
+
+      var queryString = "INSERT INTO User (userName) VALUES (" + "'" + message.username + "'" + ")";
+      var queryArgs = [];
+      connection.query(queryString, queryArgs, function(err, results) {
+          console.log('in post ', "queryString: ", queryString);
+          console.log('in post ', "queryArgs: ", queryArgs);
+      });
+    }
   }
 };
 
