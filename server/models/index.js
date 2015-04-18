@@ -36,7 +36,7 @@ module.exports = {
 
 
     },
-    post: function (message) {
+    post: function (req, res) {
 
       var connection = mysql.createConnection({
         host     : 'localhost',
@@ -48,11 +48,15 @@ module.exports = {
       console.log("in post");
       connection.connect(function(err) { if (err) console.log('err');});
 
-      var queryString = "INSERT INTO User (userName) VALUES (" + "'" + message.username + "'" + ")";
+      var queryString = "INSERT INTO User (userName) VALUES (" + "'" + req.body.username + "'" + ")";
       var queryArgs = [];
       connection.query(queryString, queryArgs, function(err, results) {
-          console.log('in post ', "queryString: ", queryString);
-          console.log('in post ', "queryArgs: ", queryArgs);
+        if (!err) {
+          console.log('in query');
+          connection.end();
+          res.send(results);
+          res.end(results);
+        }
       });
     }
   }

@@ -3,11 +3,16 @@ var bluebird = require('bluebird');
 var express = require('express');
 var app = express();
 
+var defaultCorsHeaders = exports.defaultCorsHeaders = {
+  "access-control-allow-origin": "*",
+  "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "access-control-allow-headers": "content-type, accept",
+  "access-control-max-age": 10 // Seconds.
+};
 
 module.exports = {
   messages: {
     get: function (req, res) {
-      console.log('in controller message get');
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       console.log('in controller message post');
@@ -17,15 +22,15 @@ module.exports = {
 
   users: {
     // Ditto as above
-    get: function (req, res) {
-      console.log('req in user get: ', req.body);
+    get: function (message) {
       // console.log('res in user get: ', res);
-      models.users.get(req.body);
+      // models.users.get(req.body);
     },
     post: function (req, res) {
-      console.log('req in user post: ', req.body);
+      console.log('req in user post: ');
       // console.log('res in user post: ', res);
-      models.users.post(req.body);
+      res.writeHead(200, defaultCorsHeaders);
+      models.users.post(req, res);
     }
   }
 };
