@@ -1,2 +1,2 @@
 #databases
-This was a fun practice project with a pair.
+Implementing a chat server using the Parse database.
